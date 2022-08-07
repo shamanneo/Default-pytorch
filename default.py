@@ -108,6 +108,10 @@ class MainApp :
         print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
             test_loss, correct, len(self.__test_loader.dataset),
             100. * correct / len(self.__test_loader.dataset)))
+    
+    def Save(self, path) :
+        torch.save(self.__model.state_dict(), path)
+        print("The model has been saved successfully.")
 
     def Run(self) :
         # pre-procesing
@@ -122,6 +126,12 @@ class MainApp :
             self.Train(epoch)
             self.Test()
             self.__scheduler.step()
+
+        # model saving.
+        if(self.__args.save_model == True) :
+            path = None
+            self.Save(path)
+
 
 def main() :
     main_app = MainApp() 
